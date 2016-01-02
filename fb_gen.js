@@ -1,25 +1,32 @@
 'use strict'
 
-var numberOne = 0;
-var numberTwo = 1;
+module.exports = function(seqLength) {
+        var fenoArray = [ 0, 1 ];
 
-function* generator() {	
+        var numberOne = fenoArray[0];
+        var numberTwo = fenoArray[1];
 
-	while (true) {
-		if (sum) {
-			numberOne = numberTwo;
-			numberTwo = sum;		
-		}
+        var seqRemainder = seqLength - 2;
 
-		yield numberOne + numberTwo;
-	}
+        var gen = generator();
+        var sum = gen.next().value;
 
-}
+        function* generator() {	
 
-var gen = generator();
-var sum = gen.next().value;
+	        while (true) {
+		        if (sum) {
+		            numberOne = numberTwo;
+			        numberTwo = sum;		
+		        }
 
-for (var i=0; i < 30; i++) {
-	console.log(sum);
-	sum = gen.next().value;
-}
+		        yield numberOne + numberTwo;
+	        }
+        }
+
+        for (var i=0; i < seqRemainder; i++) {
+	        fenoArray.push(sum);
+	        sum = gen.next().value;	        
+        }
+
+        return fenoArray;
+    }
